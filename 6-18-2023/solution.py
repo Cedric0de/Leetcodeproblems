@@ -4,17 +4,20 @@ class Solution(object):
         :type board: List[List[str]]
         :rtype: bool
         """
-        hashcol = {}
-        hashrow = {}
-        box = {}
+        rows = [set() for x in range(9)]
+        columns = [set() for x in range(9)]
+        squares = [[set() for x in range(3)] for y in range(3)]
         
-        for i in range(9):
-            for x in range(9):
-                if board[i][x] == ".":
+        for x in range(9):
+            for y in range(9):
+                cell_value = board[x][y]
+                if cell_value == ".":
                     continue
-                if((board[i][x] in hashrow[i]) or (board[i][x] in hashcol[x]) or (board[i][x] in box[i // 3, x // 3])):
+                if cell_value in rows[x] or cell_value in columns[y] or cell_value in squares[x//3][y//3]:
                     return False
-                hashcol[x].add(board[i][x])
-                hashrow[i].add(board[i][x])
-                box[i // 3, c // 3].add(board[i][x])
+
+                rows[x].add(cell_value)
+                columns[y].add(cell_value)
+                squares[x//3][y//3].add(cell_value)
+        
         return True
